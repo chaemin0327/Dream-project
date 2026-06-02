@@ -7,53 +7,114 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    body { background-color: #ffffff; color: #333333; font-family: 'Pretendard', sans-serif; margin: 0; }
-    .app-container { max-width: 480px; min-height: 100vh; background-color: #f8f9fa; margin: 0 auto; box-shadow: 0 0 20px rgba(0,0,0,0.03); padding: 40px 24px; display: flex; flex-direction: column; justify-content: center; }
-    .progress { height: 6px; background-color: #e9ecef; border-radius: 3px; margin-bottom: 40px; }
-    .progress-bar { background-color: #4c6ef5; }
-    .question-box { text-align: center; }
-    .q-num { color: #4c6ef5; font-size: 18px; font-weight: 700; margin-bottom: 10px; }
-    .q-title { font-size: 20px; font-weight: 600; line-height: 1.4; margin-bottom: 40px; }
-    .likert-container { display: flex; flex-direction: column; gap: 12px; }
-    .likert-option { background-color: #ffffff; border: 1px solid #dee2e6; border-radius: 12px; padding: 16px 20px; cursor: pointer; text-align: left; font-size: 15px; transition: all 0.2s; color: #495057; }
-    .likert-option:hover { background-color: #edf2ff; border-color: #4c6ef5; color: #4c6ef5; }
-    .result-container { display: none; text-align: center; }
-    .chart-wrapper { width: 100%; max-width: 350px; margin: 0 auto 30px auto; }
-    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 25px; text-align: left; }
-    .stat-box { background-color: #ffffff; padding: 10px; border-radius: 10px; border: 1px solid #eee; }
-    .stat-label { font-size: 11px; color: #888; margin-bottom: 2px; }
-    .stat-value { font-size: 18px; font-weight: 700; color: #4c6ef5; }
-    .job-list { text-align: left; margin-top: 30px; background: white; padding: 20px; border-radius: 15px; border: 1px solid #eee; }
-    .job-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #eee; cursor: pointer; transition: background 0.2s; }
-    .job-item:hover { background-color: #f8f9fa; }
-    .job-item:last-child { border-bottom: none; }
-    .job-name { font-weight: 600; font-size: 15px; color: #212529; }
-    .job-pct { font-weight: 700; font-size: 16px; color: #4c6ef5; }
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
 
-    .roadmap-detail-box { display: none; text-align: left; margin-top: 25px; background: #ffffff; padding: 20px; border-radius: 15px; border: 1px solid #e9ecef; }
-    .subject-box { background: #f8f9fa; border-radius: 10px; padding: 10px 14px; margin-bottom: 8px; border-left: 4px solid #4c6ef5; font-size: 13px; }
-    .company-box { background: #fff3cd; border-radius: 10px; padding: 12px 14px; margin-top: 8px; border-left: 4px solid #ffc107; font-size: 13.5px; }
+    body {
+      background-color: #f3f4f6;
+      color: #1f2937;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      margin: 0;
+      padding: 24px 0;
+    }
+
+    .app-container {
+      max-width: 440px;
+      min-height: calc(100vh - 48px);
+      background-color: #ffffff;
+      margin: 0 auto;
+      border-radius: 28px;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.03);
+      padding: 44px 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .progress-wrapper { margin-bottom: 40px; }
+    .progress { height: 6px; background-color: #f3f4f6; border-radius: 99px; overflow: visible; }
+    .progress-bar {
+      background: linear-gradient(90deg, #6366f1, #4f46e5);
+      border-radius: 99px;
+      position: relative;
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .intro-graphic { font-size: 64px; margin-bottom: 24px; display: inline-block; filter: drop-shadow(0 8px 16px rgba(99, 102, 241, 0.15)); }
+    .main-title { font-size: 26px; font-weight: 800; letter-spacing: -1px; color: #111827; line-height: 1.35; }
+    .main-desc { font-size: 15px; color: #4b5563; line-height: 1.7; word-break: keep-all; }
+    .highlight-text { background: linear-gradient(to top, #e0e7ff 40%, transparent 40%); padding: 0 2px; font-weight: 700; color: #4f46e5; }
+    .source-tag { font-size: 12px; color: #9ca3af; background-color: #f9fafb; padding: 6px 12px; border-radius: 99px; display: inline-block; }
+
+    .btn-custom-primary {
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: #ffffff;
+      border: none;
+      border-radius: 18px;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: -0.3px;
+      transition: all 0.25s ease;
+      box-shadow: 0 8px 24px rgba(79, 70, 229, 0.15);
+    }
+    .btn-custom-primary:hover, .btn-custom-primary:active { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(79, 70, 229, 0.25); }
+    .btn-custom-outline { background: #f9fafb; color: #4f46e5; border: 1px solid #e5e7eb; border-radius: 18px; font-weight: 700; font-size: 15px; transition: all 0.2s ease; }
+    .btn-custom-outline:hover { background: #edf2ff; border-color: #c7d2fe; }
+
+    .question-box { text-align: left; }
+    .q-num { color: #4f46e5; font-size: 14px; font-weight: 800; margin-bottom: 12px; letter-spacing: 1px; text-transform: uppercase; }
+    .q-title { font-size: 21px; font-weight: 700; line-height: 1.5; color: #111827; margin-bottom: 40px; word-break: keep-all; min-height: 64px; }
+
+    .likert-container { display: flex; flex-direction: column; gap: 12px; }
+    .likert-option { background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 18px; padding: 18px 22px; cursor: pointer; text-align: left; font-size: 15.5px; font-weight: 600; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); color: #374151; }
+    .likert-option:hover { background-color: #f9fafb; border-color: #4f46e5; color: #4f46e5; transform: scale(1.015); }
+
+    .result-container { display: none; text-align: center; }
+    .chart-wrapper { width: 100%; max-width: 300px; margin: 0 auto 28px auto; }
+
+    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 24px; }
+    .stat-box { background-color: #f9fafb; padding: 14px 8px; border-radius: 16px; border: 1px solid #f3f4f6; }
+    .stat-label { font-size: 12px; font-weight: 700; color: #6b7280; margin-bottom: 4px; }
+    .stat-value { font-size: 18px; font-weight: 800; color: #4f46e5; }
+
+    .job-list { text-align: left; margin-top: 40px; background: #ffffff; padding: 4px 0; }
+    .job-item { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; border-radius: 18px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s ease; border: 1px solid #e5e7eb; }
+    .job-name { font-weight: 700; font-size: 15px; color: #111827; }
+    .job-pct { font-weight: 800; font-size: 16px; color: #4f46e5; }
+
+    .roadmap-detail-box { text-align: left; margin-top: 24px; background: #f9fafb; padding: 26px; border-radius: 22px; border: 1px solid #f3f4f6; }
+    .section-sub-title { font-size: 12px; font-weight: 800; color: #6b7280; letter-spacing: 0.8px; margin-bottom: 10px; }
+    .subject-box { background: #ffffff; border-radius: 14px; padding: 14px 18px; margin-bottom: 8px; border-left: 4px solid #6366f1; font-size: 13.5px; color: #374151; box-shadow: 0 2px 4px rgba(0,0,0,0.01); }
+    .company-box { background: #fffbeb; border-radius: 14px; padding: 14px 18px; margin-top: 6px; border-left: 4px solid #f59e0b; font-size: 13.5px; color: #78350f; }
+    .tech-stack-tag { background-color: #eff6ff; color: #1e40af; padding: 12px 16px; border-radius: 14px; font-size: 14px; font-weight: 600; }
+    .cert-box { background-color: #f3f4f6; padding: 14px 18px; border-radius: 14px; font-size: 13.5px; color: #4b5563; }
+
+    /* 💡 가이드북 링크 카드 전용 스타일 */
+    .guidebook-section { text-align: left; margin-top: 40px; border-top: 2px dashed #e5e7eb; padding-top: 30px; }
+    .link-card { border: 1px solid #4f46e5; background: #f8fafc; padding: 20px; border-radius: 18px; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s ease; text-decoration: none; }
+    .link-card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(79, 70, 229, 0.06); }
   </style>
 </head>
 <body>
 
 <div class="app-container">
-  <div id="progressSection" style="display: none;">
+  <div id="progressSection" class="progress-wrapper" style="display: none;">
     <div class="progress"><div id="gauge" class="progress-bar" role="progressbar" style="width: 0%;"></div></div>
   </div>
 
   <div id="introSection" class="text-center">
-    <h2 class="fw-bold mb-3" style="letter-spacing: -1px; color: #212529;">IT응용공학과 직무 적성검사</h2>
-    <p class="text-muted small px-2 mb-5">
-      학과 전공동아리 가이드북 및 통신 보고서를 기반으로 설계되었습니다.<br>
-      나의 개발자 역량을 진단하고, 나에게 매칭되는 세부 직무 정보와<br>
-      <strong>우리학과 학년별 커리큘럼 로드맵</strong>을 확인해보세요!
+    <div class="intro-graphic">✨</div>
+    <h2 class="main-title mb-4">IT응용공학과<br>직무 적성검사</h2>
+
+    <p class="main-desc small px-2 mb-4">
+      당신의 성향에 맞는 <span class="highlight-text"> 직무 </span>와<br>
+      <span class="highlight-text">학년별 최적 커리큘럼</span>을 알려드립니다
     </p>
-    <button class="btn btn-primary w-100 py-3 fw-bold" style="border-radius: 14px; background-color: #4c6ef5; border: none;" onclick="startSurvey()">검사 시작하기</button>
-  </div>
+    <div class="mb-5"><span class="source-tag">ITEM동아리 가이드북 연계</span></div>
+    <button class="btn btn-custom-primary w-100 py-3.95 fs-5 fw-bold" style="letter-spacing: -0.3px; border-radius: 24px;" onclick="startSurvey()">내 최적 직무 진단하기</button>  </div>
 
   <div id="questionSection" class="question-box" style="display: none;">
-    <div id="qNum" class="q-num">Q1</div>
+    <div id="qNum" class="q-num">Question 01</div>
     <div id="qTitle" class="q-title">질문 내용</div>
     <div class="likert-container">
       <div class="likert-option" onclick="submitAnswer(5)">😀 매우 그렇다</div>
@@ -65,8 +126,8 @@
   </div>
 
   <div id="resultSection" class="result-container">
-    <h4 class="text-muted mb-2" style="font-size: 13px;">나의 적성 분석 결과</h4>
-    <h2 class="fw-bold mb-4" style="color: #212529;">나의 역량 스펙트럼</h2>
+    <h4 class="section-sub-title">ANALYSIS REPORT</h4>
+    <h2 class="fw-bold mb-4" style="color: #111827; font-size: 23px;">나의 종합 역량 스펙트럼</h2>
 
     <div class="chart-wrapper"><canvas id="radarChart"></canvas></div>
 
@@ -79,71 +140,74 @@
       <div class="stat-box"><div class="stat-label">협업능력</div><div class="stat-value" id="val_comm">0</div></div>
     </div>
 
-    <div class="job-list shadow-sm">
-      <h6 class="fw-bold mb-2 text-secondary" style="font-size: 13px;">🎯 추천 직무 (클릭 시 상세 정보 노출)</h6>
+    <div class="job-list">
+      <h6 class="fw-bold mb-3 section-sub-title text-start">🎯 나에게 가장 매칭되는 TOP 3 직무</h6>
       <div class="job-item" id="item0" onclick="clickJobItem(0)"><span class="job-name" id="job1_name">-</span><span class="job-pct" id="job1_pct">0%</span></div>
       <div class="job-item" id="item1" onclick="clickJobItem(1)"><span class="job-name" id="job2_name">-</span><span class="job-pct" id="job2_pct">0%</span></div>
       <div class="job-item" id="item2" onclick="clickJobItem(2)"><span class="job-name" id="job3_name">-</span><span class="job-pct" id="job3_pct">0%</span></div>
     </div>
 
-    <div id="roadmapDetailSection" class="roadmap-detail-box shadow-sm">
-      <h5 class="fw-bold text-dark mb-1" id="detJobName">직무명</h5>
-      <p class="text-muted small mb-3" id="detConcept">직무 개념 설명</p>
-
-      <h6 class="fw-bold text-primary mb-2" style="font-size: 13px;">💻 핵심 스택 / 기술</h6>
-      <p id="detTech" class="small text-secondary fw-bold mb-3">-</p>
-
-      <div id="companySection" style="display: none; margin-bottom: 20px;">
-        <h6 class="fw-bold text-warning mb-2" style="font-size: 13px;">🏢 주요 채용 기업</h6>
+    <div id="roadmapDetailSection" class="roadmap-detail-box">
+      <h5 class="fw-bold text-dark mb-1" id="detJobName" style="font-size: 19px;">직무명</h5>
+      <p class="text-muted small mb-4" id="detConcept" style="line-height: 1.5; word-break: keep-all;">직무개념 설명</p>
+      <h6 class="section-sub-title">💻 핵심 스택 / 주요 기술</h6>
+      <div id="detTech" class="tech-stack-tag mb-4">-</div>
+      <div id="companySection" style="display: none; margin-bottom: 24px;">
+        <h6 class="section-sub-title" style="color: #b45309 !important;">🏢 실제 진출 주요 기업</h6>
         <div class="company-box" id="detCompanies">-</div>
       </div>
-
-      <h6 class="fw-bold text-primary mb-2" style="font-size: 13px;">🎓 학과 학년별 커리큘럼</h6>
-      <div class="subject-box"><strong>1학년:</strong> <span id="detSub1">-</span></div>
-      <div class="subject-box"><strong>2학년:</strong> <span id="detSub2">-</span></div>
-      <div class="subject-box"><strong>3학년:</strong> <span id="detSub3">-</span></div>
-      <div class="subject-box"><strong>4학년:</strong> <span id="detSub4">-</span></div>
-
-      <h6 class="fw-bold text-primary mt-3 mb-2" style="font-size: 13px;">🏅 권장 자격증 및 활동</h6>
-      <p id="detCert" class="small text-secondary mb-0">-</p>
+      <h6 class="section-sub-title">🎓 학과 추천 학년별 커리큘럼</h6>
+      <div class="subject-box"><strong>1학년</strong> &nbsp;|&nbsp; <span id="detSub1">-</span></div>
+      <div class="subject-box"><strong>2학년</strong> &nbsp;|&nbsp; <span id="detSub2">-</span></div>
+      <div class="subject-box"><strong>3학년</strong> &nbsp;|&nbsp; <span id="detSub3">-</span></div>
+      <div class="subject-box"><strong>4학년</strong> &nbsp;|&nbsp; <span id="detSub4">-</span></div>
+      <h6 class="section-sub-title mt-4">🏅 권장 자격증 및 추천 활동</h6>
+      <div id="detCert" class="cert-box">-</div>
     </div>
 
-    <button class="btn btn-outline-primary w-100 mt-4 py-3" style="border-radius: 12px;" onclick="location.reload()">다시 검사하기</button>
+    <div class="guidebook-section">
+      <h4 class="section-sub-title text-start mb-1">💡 학과 진로 로드맵 가이드북 전체 보기</h4>
+      <p class="text-muted text-start mb-4" style="font-size: 12.5px; line-height: 1.45;">
+        학과 전공동아리 가이드북과 통신 보고서의 모든 트랙 데이터(총 20개 직무)를 독립된 전용 UX 화면에서 한눈에 확인해보세요.
+      </p>
+
+      <a href="roadmap.html" class="link-card">
+        <div class="text-start">
+          <span style="font-weight: 700; font-size: 15.5px; color: #4f46e5;">🎓 학과 학년별 커리큘럼 로드맵 전체보기</span>
+          <p class="text-muted mb-0 mt-1" style="font-size: 12px;">소프트웨어 · 인프라/보안 · 데이터/AI · 통신/임베디드 전체 수록</p>
+        </div>
+        <span class="fw-bold" style="color: #4f46e5; font-size: 16px;">&rarr;</span>
+      </a>
+    </div>
+
+    <button class="btn btn-custom-outline w-100 mt-4 py-3" onclick="location.reload()">다시 테스트하기</button>
   </div>
 </div>
 
 <script>
-  // solve 3문항 / learn 3문항 / impl 2문항 / creative 3문항 / user 3문항 / comm 3문항 / hw_sw 3문항 = 총 20문항
   const questions = [
     { id: 1,  title: "나는 에러를 마주했을 때 끈기 있게 집요하게 파고드는 편이다.", type: "solve" },
     { id: 2,  title: "복잡한 알고리즘 문제를 풀 때 논리적인 구조를 짜는 것이 즐겁다.", type: "solve" },
     { id: 3,  title: "시스템의 허점을 찾아 막거나, 수학 알고리즘의 원리를 끝까지 증명하는 작업이 재미있다.", type: "solve" },
-
     { id: 4,  title: "나는 최신 IT 트렌드나 새로운 프로그래밍 언어 소식에 관심이 많다.", type: "learn" },
     { id: 5,  title: "공식 문서나 가이드를 보고 스스로 기술을 습득하는 것이 두렵지 않다.", type: "learn" },
     { id: 6,  title: "관심 있는 IT 분야가 생기면 밤을 새워서라도 깊게 공부해 본 경험이 있다.", type: "learn" },
-
     { id: 7,  title: "이론적인 원리 학습보다, 내가 직접 코드를 짜서 실현하는 게 더 즐겁다.", type: "impl" },
     { id: 8,  title: "프로젝트나 과제를 시작하면 중간에 지치지 않고 어떻게든 결과물을 만든다.", type: "impl" },
-
     { id: 9,  title: "나는 팀 프로젝트에서 새로운 서비스 아이디어나 설계 방향을 자주 제안한다.", type: "creative" },
     { id: 10, title: "기존 시스템 방식을 그대로 따르기보다, 더 효율적인 대안을 고민하는 편이다.", type: "creative" },
     { id: 11, title: "기술을 깊게 파는 것만큼, 기술을 연결해서 실제 서비스나 비즈니스로 만드는 것도 흥미롭다.", type: "creative" },
-
     { id: 12, title: "웹이나 앱을 쓸 때 기능이 좋아도 UI/UX가 복잡하면 쓰기 싫어진다.", type: "user" },
     { id: 13, title: "프로그램을 설계할 때 사용자가 보기에 가장 직관적인 화면을 먼저 고민한다.", type: "user" },
     { id: 14, title: "화려한 UI보다 서버·인프라·데이터 파이프라인이 흔들림 없이 돌아가는 게 훨씬 가치 있다고 생각한다.", type: "user", reversed: true },
-
     { id: 15, title: "팀원들과 소통하고 동료의 문제를 함께 도우며 시너지를 내는 것이 즐겁다.", type: "comm" },
     { id: 16, title: "회의를 주도하거나 복잡한 시스템의 흐름을 남에게 알기 쉽게 설명할 수 있다.", type: "comm" },
     { id: 17, title: "혼자 프로그램 하나 만드는 것보다 개발·인프라·보안 담당자들과 함께 큰 시스템을 운영하는 게 더 매력적이다.", type: "comm" },
-
     { id: 18, title: "회로도를 보거나 PCB 기판을 직접 납땜·조립하는 작업이 코드를 짜는 것만큼, 혹은 그보다 더 즐겁다.", type: "hw_sw" },
     { id: 19, title: "내 코드가 실제 물리 장치(센서·모터·LED 등)를 움직일 때 화면에 앱이 뜨는 것보다 더 큰 성취감을 느낀다.", type: "hw_sw" },
     { id: 20, title: "오실로스코프·멀티미터 같은 계측 장비나 마이크로컨트롤러 개발 환경이 터미널·IDE 환경보다 친숙하거나 더 흥미롭다.", type: "hw_sw" }
   ];
 
-  // 💡 직무별 매칭 가중치 업데이트 (hw_sw 항목 추가: 1점=순수SW ~ 6점=순수HW)
   const jobProfiles = [
     {
       name: "💻 웹 프론트엔드 개발자",
@@ -155,11 +219,20 @@
       weights: { solve: 3, learn: 4, impl: 5, creative: 5, user: 6, comm: 4, hw_sw: 1 }
     },
     {
+      name: "💻 안드로이드 / iOS 앱 개발자",
+      concept: "스마트폰 및 태블릿 환경에서 동작하는 모바일 앱을 설계하고 개발하는 직무로, 플랫폼별 UI 구현과 네이티브 기능 연동이 핵심이다.",
+      tech: "Kotlin, Swift, Flutter, Android Studio, Xcode, REST API",
+      companies: "네이버, 카카오, 토스, 당근마켓, 배달의민족 등 모바일 플랫폼 기업",
+      subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2)", "모바일프로그래밍, 객체지향프로그래밍, 데이터구조", "웹프로그래밍, 컴퓨터구조, 데이터베이스(1)", "실무알고리즘, 인공지능응용, 캡스톤디자인"],
+      cert: "정보처리기사, 웹디자인기능사(선택)",
+      weights: { solve: 4, learn: 4, impl: 5, creative: 4, user: 5, comm: 4, hw_sw: 1 }
+    },
+    {
       name: "💻 UI/UX 엔지니어",
       concept: "사용자 중심 디자인 리서치를 바탕으로 와이어프레임과 UI 프로토타입을 설계하고, 이를 직접 모던 웹/앱 프론트 코드로 정밀 구현하는 직무",
       tech: "Figma, HTML, CSS, JavaScript, 프로토타이핑 툴, Zeplin",
-      companies: "",
-      subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2)", "모바일프로그래밍, 객체지향프로그래밍, 데이터구조", "웹프로그래밍, 컴퓨터구조", "실무알고리즘, 캡스톤디자인"],
+      companies: "대형 에이전시, IT 서비스 스타트업, 커머스 기업 디자인 그룹",
+      subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2)", "모바일프로그래밍, 객체지향프로그래밍", "웹프로그래밍, 컴퓨터구조", "실무알고리즘, 캡스톤디자인"],
       cert: "웹디자인기능사, GTQ 그래픽 자격증 우대",
       weights: { solve: 3, learn: 3, impl: 4, creative: 6, user: 6, comm: 5, hw_sw: 1 }
     },
@@ -182,58 +255,22 @@
       weights: { solve: 5, learn: 4, impl: 5, creative: 3, user: 2, comm: 4, hw_sw: 1 }
     },
     {
-      name: "⚙️ 데이터베이스 개발자/DBA",
-      concept: "데이터베이스 모델링을 통해 스키마를 최적화하고 복잡한 SQL 쿼리 튜닝, 인덱스 아키텍처 설계, 백업 및 무결성을 총괄하는 직무",
-      tech: "MySQL, Oracle, SQL, PL/SQL, 인덱스 아키텍처, 쿼리 최적화",
-      companies: "오라클 코리아, 삼성SDS, LG CNS, 한국IBM 등 엔터프라이즈 IT 기업",
-      subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2), 공업수학", "데이터구조, 객체지향프로그래밍, 리눅스프로그래밍", "데이터베이스(1), 웹프로그래밍, 컴퓨터구조", "데이터베이스(2), 실무알고리즘, 캡스톤디자인"],
-      cert: "SQLD, SQLP(심화), 정보처리기사",
-      weights: { solve: 5, learn: 4, impl: 5, creative: 3, user: 2, comm: 3, hw_sw: 1 }
-    },
-    {
-      name: "⚙️ 시스템 엔지니어(개발)",
-      concept: "리눅스 커널과 저수준 메모리 버퍼 영역에 직접 부딪히며 시스템 라이브러리 및 고성능 저수준 백엔드 코어 모듈을 빌드하는 직무",
-      tech: "C, C++, Linux System Programming, GDB, Make, CMake, Docker",
-      companies: "KT, SKT, 한국IBM, 메가존클라우드 등 통신 및 솔루션 기업",
-      subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2)", "데이터구조, 리눅스프로그래밍, 객체지향프로그래밍", "컴퓨터구조, 신호및시스템, 운영체제", "실무알고리즘, 캡스톤디자인, 인공지능응용"],
+      name: "⚙️ 시스템 엔지니어(SE)",
+      concept: "서버와 운영체제를 최적화하여 구축·운영하며 저수준 시스템 코어 모듈 빌드 및 자동화 환경을 수립하는 직무",
+      tech: "C, C++, Linux System Programming, Shell Script(Bash), GDB, Docker",
+      companies: "KT, SKT, 한국IBM, 메가존클라우드 등 인프라 아키텍처 솔루션 기업",
+      subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2), IT응용공학기초", "데이터구조, 리눅스프로그래밍, 객체지향프로그래밍", "컴퓨터구조, 신호및시스템, 운영체제, 컴퓨터네트워크", "실무알고리즘, 캡스톤디자인, 인공지능응용"],
       cert: "리눅스마스터 2급/1급, 정보처리기사 추천",
       weights: { solve: 5, learn: 4, impl: 5, creative: 3, user: 1, comm: 3, hw_sw: 3 }
     },
     {
-      name: "🔌 하드웨어 설계 엔지니어",
-      concept: "디지털 및 아날로그 전자 회로를 분석·설계하고, 시뮬레이션 검증을 거쳐 Altium/KiCad 기반의 물리 PCB 아트워크 레이아웃을 제작하는 직무",
-      tech: "KiCad, Altium Designer, LTspice, 오실로스코프, 멀티미터",
-      companies: "삼성전자(DS/VD), LG전자, 삼성전기, 한솔테크닉스 등 전자·제조 기업",
-      subs: ["기초전자공학, 공업수학, 이산수학, IT응용공학 기초", "회로이론, 전자회로(1), 인공지능 수학, 전자기학", "전자회로(2), 디지털통신공학, 컴퓨터구조, 신호및시스템", "종합설계 / 캡스톤디자인 아트워크 실무"],
-      cert: "전자기사, 전자산업기사, 전자기능사",
-      weights: { solve: 4, learn: 3, impl: 5, creative: 2, user: 1, comm: 3, hw_sw: 6 }
-    },
-    {
-      name: "🤖 임베디드 SW/펌웨어 개발자",
-      concept: "MCU 레지스터 직접 제어 및 하드웨어 인터럽트 처리를 수행하며, 실시간 OS 위에서 메모리가 제한된 초경량 시스템 코드를 최적화하는 직무",
-      tech: "C, 어셈블리어, STM32, Arduino, FreeRTOS, UART/SPI/I2C, JTAG, GDB",
-      companies: "현대모비스, 현대트랜시스, 한화시스템, LG전자 등 전장/방산 기업",
-      subs: ["프로그래밍설계및기법, 프로그래밍기초(1), 기초전자공학, 공업수학", "회로이론(1), 전자회로(1), 신호및시스템, 리눅스프로그래밍, 객체지향프로그래밍", "마이크로프로세서, 임베디드시스템, 컴퓨터구조, 운영체제, 디지털통신공학, 전자회로(2)", "실무알고리즘, 인공지능응용 종합 펌웨어 제어 프로젝트"],
-      cert: "정보처리기사, 전자기사, 전자산업기사",
-      weights: { solve: 5, learn: 4, impl: 6, creative: 2, user: 1, comm: 3, hw_sw: 5 }
-    },
-    {
-      name: "🤖 IoT 개발자",
-      concept: "ESP32 등 무선 통신 소자를 다루며 저전력 센서 드라이버를 개발하고 MQTT/HTTP 통신 규격을 통해 물리 기기를 인터넷 망에 연결하는 직무",
-      tech: "C, Python, Arduino, ESP32, Wi-Fi, Bluetooth, MQTT, AWS IoT",
-      companies: "LG전자, KT&G(자동화 설비), 스마트홈 스타트업 등",
-      subs: ["프로그래밍설계및기법, 프로그래밍기초(1), 기초전자공학, 공업수학", "IoT기초, IoT기초실습, 회로이론(1), 전자회로(1), 리눅스프로그래밍, 객체지향프로그래밍", "임베디드시스템, 마이크로프로세서, 컴퓨터구조, 운영체제", "사물인터넷응용,IoT 무선 네트워크 분산 시스템 종합 캡스톤 프로젝트"],
-      cert: "정보통신산업기사, 정보처리기사, 전자기능사",
-      weights: { solve: 4, learn: 4, impl: 5, creative: 4, user: 4, comm: 4, hw_sw: 4 }
-    },
-    {
-      name: "🔒 네트워크 엔지니어",
-      concept: "라우팅 설계에 의거해 기업 엔지니어링 통폴로지를 구성하고 데이터가 원활히 흐르도록 통신 관제 환경을 운용·유지하는 직무",
-      tech: "TCP/IP, Routing, VLAN, Switching, Cisco IOS, Wireshark, GNS3",
-      companies: "KT, SKT, 현대트랜시스, 한국방송통신전파진흥원(KCA) 등",
-      subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2), IT응용공학기초", "데이터통신, 리눅스프로그래밍", "컴퓨터네트워크, 운영체제", "실무알고리즘 기반 토폴로지 인프라 구축"],
-      cert: "CCNA, CCNP, 네트워크관리사 2급",
-      weights: { solve: 4, learn: 4, impl: 5, creative: 2, user: 1, comm: 5, hw_sw: 3 }
+      name: "⚙️ 데이터베이스 관리자 / DBA",
+      concept: "데이터베이스 모델링을 통해 스키마를 최적화하고 복잡한 SQL 쿼리 튜닝, 인덱스 아키텍처 설계, 백업 및 무결성을 총괄하는 직무",
+      tech: "MySQL, Oracle, PostgreSQL, SQL, PL/SQL, 인덱스 아키텍처, 쿼리 최적화",
+      companies: "오라클 코리아, 삼성SDS, LG CNS, 한국IBM 등 엔터프라이즈 IT 기업",
+      subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2), 공업수학", "데이터구조, 객체지향프로그래밍, 리눅스프로그래밍, 데이터통신", "데이터베이스(1·2), 운영체제, 정보보안, 컴퓨터네트워크", "실무알고리즘, 전자정부프레임워크, 캡스톤디자인"],
+      cert: "SQLD, SQLP(심화), 정보처리기사, OCP(선택)",
+      weights: { solve: 5, learn: 4, impl: 5, creative: 3, user: 2, comm: 3, hw_sw: 1 }
     },
     {
       name: "☁️ 클라우드 엔지니어",
@@ -246,7 +283,7 @@
     },
     {
       name: "🔒 정보보안 엔지니어",
-      concept: "기업 내부 시스템에 통합 방화벽 보안 솔루션을 구축하고, 패킷 수집 차단 규칙을 적용하며 침해 사고 발생 시 트래픽 역추적을 수행하는 직무",
+      concept: "기업 내부 시스템에 통합 방화벽 보안 솔루션을 구축하고, 패킷 수집 차단 규칙을 적용하며 침해 사고 발생 시 트래픽 보안 관제를 수행하는 직무",
       tech: "SIEM, ESM, 방화벽 Policy 설계, IDS/IPS(Snort), Wireshark",
       companies: "삼성전자, 안랩(AhnLab), SK쉴더스, 이글루코퍼레이션 등",
       subs: ["프로그래밍기초(1·2), IT응용공학기초", "리눅스프로그래밍, 데이터통신 보안", "운영체제, 컴퓨터네트워크, 정보보안, 웹프로그래밍", "실무알고리즘 관제 프로젝트"],
@@ -258,48 +295,138 @@
       concept: "최신 침투 프레임워크와 웹 프록시 도구를 활용해 고객사의 소프트웨어 취약점을 공격자 관점에서 우회 침투하고 패치 방안을 제시하는 직무",
       tech: "Kali Linux, Metasploit, Burp Suite, OWASP Top 10 취약점, 리버싱",
       companies: "SK쉴더스, 한국인터넷진흥원(KISA), 토스(보안팀) 등",
-      subs: ["프로그래밍기초(1·2), IT응용공학기초", "리눅스프로그래밍, 데이터통신", "운영체제, 컴퓨터네트워크, 정보보안, 웹프로그래밍", "실무알고리즘 및 교내외 CTF 보안해킹대회 참여"],
+      subs: ["프로그래밍기초(1·2), IT응용공학기초", "리눅스프로그래밍, 데이터통신", "운영체제, 컴퓨터네트워크, 정보보안 해킹공학, 웹프로그래밍", "실무알고리즘 및 교내외 CTF 보안해킹대회 참여"],
       cert: "정보보안기사, OSCP, CEH 취득 추천",
       weights: { solve: 6, learn: 5, impl: 4, creative: 3, user: 1, comm: 3, hw_sw: 1 }
     },
     {
+      name: "🔒 클라우드 보안 전문가",
+      concept: "클라우드 환경의 데이터와 가상 인프라 자산을 안전하게 보호하기 위해 계정 접근 통제(IAM) 및 분산 컴플라이언스를 구성하는 직무",
+      tech: "AWS IAM, VPC Security Group, Docker/K8s Security, Cloud Custodian",
+      companies: "안랩, SK쉴더스, 메가존클라우드, 토스 보안팀",
+      subs: ["프로그래밍기초(1·2), IT응용공학기초", "리눅스프로그래밍, 데이터통신", "운영체제, 컴퓨터네트워크, 정보보안", "실무알고리즘"],
+      cert: "CCSP, AWS Certified Security, 리눅스마스터",
+      weights: { solve: 5, learn: 5, impl: 4, creative: 3, user: 1, comm: 4, hw_sw: 1 }
+    },
+    {
+      name: "🔒 보안 솔루션 엔지니어",
+      concept: "방화벽 정책 설계, 침입탐지시스템(IDS/IPS), 가상사설망(VPN) 등 기업 인프라 방어 솔루션을 엔지니어링 및 유지보수하는 직무",
+      tech: "Palo Alto, FortiGate, Snort, Suricata, OpenVPN, Wireshark",
+      companies: "안랩, 시큐아이, 파수, 윈스 등 정보보안 특화 기술 기업",
+      subs: ["프로그래밍기초(1·2), IT응용공학기초", "리눅스프로그래밍, 데이터통신", "운영체제, 컴퓨터네트워크, 정보보안", "실무알고리즘"],
+      cert: "정보보안기사, CISSP, 네트워크관리사 2급",
+      weights: { solve: 4, learn: 4, impl: 5, creative: 2, user: 1, comm: 4, hw_sw: 2 }
+    },
+    {
       name: "📊 데이터 분석가",
-      concept: "데이터를 수집·정제·분석하여 의사결정에 필요한 KPI 지표를 설계하고 시각화하여 인사이트를 도출하는 직무",
+      concept: "데이터를 수집·정제·분석하여 의사결정에 필요한 KPI 지표를 설계하고 시각화하여 비즈니스 인사이트를 도출하는 직무",
       tech: "Python(pandas, numpy), SQL, Tableau, Power BI, Looker Studio",
       companies: "SK하이닉스, 쏘카, 버킷플레이스(오늘의집), 아워홈 등",
-      subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2)", "데이터구조, 객체지향프로그래밍, 인공지능수학, 리눅스프로그래밍", "데이터베이스(1·2), 웹프로그래밍, 컴퓨터네트워크", "실무알고리즘, 인공지능응용 지표 분석"],
+      subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2), 공업수학, 이산수학", "데이터구조, 객체지향프로그래밍, 인공지능수학, 리눅스프로그래밍", "데이터베이스(1·2), 웹프로그래밍, 컴퓨터네트워크", "실무알고리즘, 인공지능응용 지표 분석"],
       cert: "ADsP, SQLD, 빅데이터분석기사",
       weights: { solve: 4, learn: 4, impl: 3, creative: 3, user: 3, comm: 5, hw_sw: 1 }
     },
     {
-      name: "📊 BI Analyst/BI Developer",
-      concept: "기업 비즈니스 요구사항에 맞춰 데이터 웨어하우스 데이터를 설계하고 고성능 시각화 대시보드를 구축·운영하는 직무",
-      tech: "Power BI(DAX), Tableau, SQL, 팩트/디멘전 테이블 데이터 모델링",
+      name: "📊 BI Analyst / Developer",
+      concept: "기업 비즈니스 요구사항에 맞춰 데이터 웨어하우스 데이터를 설계하고 팩트/디멘전 구조 다차원 고성능 시각화 대시보드를 구축·운영하는 직무",
+      tech: "Power BI(DAX), Tableau, SQL, Star Schema 모델링 역량",
       companies: "GS칼텍스, 아워홈 등 대형 산업군 특화 비즈니스 데이터 팀",
-      subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2)", "데이터구조, 객체지향프로그래밍, 인공지능수학, 컴퓨터구조", "데이터베이스(1·2), 웹프로그래밍, 컴퓨터네트워크, 정보보안", "실무알고리즘, 전자정부프레임워크 자동화 구축"],
+      subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2), 공업수학, 이산수학", "데이터구조, 객체지향프로그래밍, 인공지능수학, 컴퓨터구조", "데이터베이스(1·2), 웹프로그래밍, 컴퓨터네트워크, 정보보안", "실무알고리즘, 전자정부프레임워크 자동화 구축"],
       cert: "SQLD, SQLP, ADsP",
       weights: { solve: 4, learn: 4, impl: 4, creative: 3, user: 4, comm: 4, hw_sw: 1 }
     },
     {
       name: "📊 데이터 사이언티스트",
-      concept: "고도화된 통계 이론과 머신러닝 알고리즘을 활용해 데이터 분석 모델을 설계하고 비즈니스 예측 문제를 해결하는 직무",
+      concept: "고도화된 통계 이론 tobacco 머신러닝 알고리즘을 활용해 피처 엔지니어링을 수행하고 데이터 기반 비즈니스 예측 모델을 코딩·실험하는 직무",
       tech: "Python, scikit-learn, PyTorch, TensorFlow, matplotlib, seaborn",
-      companies: "삼성전자(Samsung AI), 크래프톤, 대형 핀테크 등",
-      subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2)", "데이터구조, 객체지향프로그래밍, 인공지능수학", "데이터베이스(1·2), 운영체제, 컴퓨터네트워크", "인공지능응용, 실무알고리즘 실험 검증"],
+      companies: "삼성전자(Samsung AI), 크래프톤, 대형 핀테크 테크 플랫폼 기업",
+      subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2), 공업수학, 이산수학", "데이터구조, 객체지향프로그래밍, 인공지능수학, 리눅스프로그래밍", "데이터베이스(1·2), 운영체제, 컴퓨터네트워크", "인공지능응용, 실무알고리즘 실험 검증"],
       cert: "ADsP, 빅데이터분석기사, SQLD",
       weights: { solve: 5, learn: 5, impl: 4, creative: 3, user: 2, comm: 3, hw_sw: 1 }
     },
     {
-      name: "🧠 AI 엔지니어 / 연구원",
-      concept: "최신 딥러닝 인공지능 알고리즘 논문을 연구·재현하고, 차세대 컴퓨터 비전 모델 설계 및 MLOps 서빙 파이프라인 배포를 총괄 전담하는 직무",
-      tech: "Python, PyTorch, TensorFlow, FastAPI, Docker, MLflow, OpenCV, ONNX",
+      name: "📊 데이터 엔지니어",
+      concept: "대용량 파이프라인 인프라를 처리하기 위해 ETL/ELT 아키텍처를 가동하고 배치 가속화 및 분산 적재 스토리지 파이프라인을 다지는 직무",
+      tech: "Python, SQL, Linux, Docker, Airflow, Kafka, Spark, NoSQL",
+      companies: "네이버, 카카오, SK텔레콤, 쿠팡 대용량 데이터 인프라 조직",
+      subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2), 공업수학, 이산수학", "데이터구조, 리눅스프로그래밍, 객체지향, 데이터통신", "데이터베이스(1·2), 컴퓨터네트워크, 정보보안, 운영체제", "실무알고리즘, 전자정부프레임워크"],
+      cert: "정보처리기사, SQLD",
+      weights: { solve: 5, learn: 4, impl: 5, creative: 3, user: 1, comm: 4, hw_sw: 1 }
+    },
+    {
+      name: "📊 머신러닝 엔지니어",
+      concept: "학습 파이프라인을 정밀 빌드하여 완성된 모델을 FastAPI 등의 컨테이너 기반 환경으로 서빙 배포하고 MLOps 주기를 튜닝 모니터링하는 직무",
+      tech: "Python, PyTorch, TensorFlow, FastAPI, Docker, MLflow, Kubernetes",
+      companies: "네이버, 카카오, 무신사 추천시스템 연구 그룹 등",
+      subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2), 공업수학, 이산수학", "데이터구조, 객체지향프로그래밍, 인공지능수학, 리눅스프로그래밍", "데이터베이스(1·2), 운영체제, 컴퓨터네트워크", "인공지능응용, 실무알고리즘 파이프라인 구축"],
+      cert: "정보처리기사, ADsP 우대",
+      weights: { solve: 5, learn: 5, impl: 5, creative: 3, user: 1, comm: 3, hw_sw: 1 }
+    },
+    {
+      name: "🧠 AI 엔지니어 / 연구원 / 리서치",
+      concept: "최신 딥러닝 인공지능 알고리즘 논문을 연구·재현하고, 선형대수 통계 모델 검증을 통해 차세대 예측분류 인프라 파이프라인을 전담하는 직무",
+      tech: "Python, PyTorch, TensorFlow, OpenCV, Hugging Face, CUDA, 분산학습",
       companies: "네이버, 카카오, 업스테이지, 올거나이즈, 구글 코리아 등 AI 전문 기업",
       subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2), 공업수학, 이산수학", "데이터구조, 인공지능수학, 신호및시스템, 객체지향프로그래밍, 리눅스프로그래밍", "데이터베이스(1·2), 운영체제, 컴퓨터네트워크, 마이크로프로세서, 디지털공학", "인공지능응용, 실무알고리즘 MLOps 파이프라인"],
       cert: "정보처리기사, ADsP 및 AI 경진대회 포트폴리오 빌드",
       weights: { solve: 6, learn: 6, impl: 4, creative: 4, user: 1, comm: 3, hw_sw: 1 }
     },
     {
-      name: "📡 네트워크 인프라",
+      name: "🧠 AI 서비스 기획자",
+      concept: "비즈니스 문제 해결을 위해 AI 요구사항(PRD)을 규정하고, 데이터 라벨링 파이프라인 전략 구성 및 온라인 모델 지표 설계를 조율하는 직무",
+      tech: "Notion, Jira, Figma, Excel, SQL, Python 기초, A/B 테스트 지표 설계",
+      companies: "네이버, 카카오, SKT, 인공지능 연계 비즈니스 부서 전반",
+      subs: ["프로그래밍설계및기법, 인공지능과디지털사고, 공업수학", "데이터구조, 객체지향, 인공지능수학, 데이터통신", "데이터베이스(1·2), 웹프로그래밍, 정보보안, 컴퓨터네트워크", "인공지능응용, 실무알고리즘 기획 프로젝트"],
+      cert: "ADsP, SQLD 취득 권장",
+      weights: { solve: 4, learn: 4, impl: 3, creative: 5, user: 4, comm: 5, hw_sw: 1 }
+    },
+    {
+      name: "🧠 컴퓨터 비전 엔지니어",
+      concept: "이미지 및 영상 다차원 픽셀 정보를 가공·증강하여 Object Detection, Segmentation, Tracking 딥러닝 인프라 모델을 설계 최적화하는 직무",
+      tech: "Python, PyTorch, OpenCV, CVAT, ONNX, TensorRT, Docker",
+      companies: "현대자동차(자율주행), 뷰노/루닛(의료 AI), 네이버 스노우 등",
+      subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2), 공업수학, 이산수학", "데이터구조, 인공지능수학, 신호및시스템, 객체지향프로그래밍", "마이크로프로세서, 임베디드시스템, 운영체제, 디지털공학"],
+      cert: "정보처리기사, 관련 경진대회 포트폴리오",
+      weights: { solve: 5, learn: 5, impl: 5, creative: 3, user: 1, comm: 3, hw_sw: 2 }
+    },
+    {
+      name: "🔌 하드웨어 설계 엔지니어",
+      concept: "디지털 및 아날로그 전자 회로를 분석·설계하고, 시뮬레이션 검증을 거쳐 Altium/KiCad 기반의 물리 PCB 아트워크 레이아웃을 제작하는 직무",
+      tech: "KiCad, Altium Designer, LTspice, 오실로스코프, 멀티미터, 기본 소자 이해",
+      companies: "삼성전자(DS/VD), LG전자, 삼성전기, 한솔테크닉스 등 전자·제조 기업",
+      subs: ["기초전자공학, 공업수학, 프로그래밍기초(1)", "회로이론(1), 전자회로(1), 신호및시스템, 이산수학", "전자회로(2), 회로이론(2), 전자기학, 디지털공학, 컴퓨터구조", "종합설계 / 캡스톤디자인 아트워크 실무"],
+      cert: "전자기사, 전자산업기사, 전자기능사",
+      weights: { solve: 4, learn: 3, impl: 5, creative: 2, user: 1, comm: 3, hw_sw: 6 }
+    },
+    {
+      name: "🔌 회로 검증 엔지니어",
+      concept: "기판 테스트 사양 분석에 의거해 프로토타입 보드의 파형 왜곡 및 전자파(EMI) 노이즈 요소를 오실로스코프로 디버깅 종합 품질 판정하는 직무",
+      tech: "오실로스코프, 멀티미터, 로직 애널라이저, LTspice, Multisim, 신호 측정",
+      companies: "삼성전자, LG전자, 텍트론 본사 및 하드웨어 인프라 품질 보증(QA)팀",
+      subs: ["기초전자공학, 공업수학, 프로그래밍기초(1)", "회로이론(1), 전자회로(1), 신호및시스템, 이산수학", "전자회로(2), 전자기학, 디지털공학, 컴퓨터구조"],
+      cert: "전자산업기사, 전자기사 필수 연계",
+      weights: { solve: 4, learn: 3, impl: 5, creative: 2, user: 1, comm: 3, hw_sw: 5 }
+    },
+    {
+      name: "🤖 임베디드 SW / 펌웨어 개발자",
+      concept: "MCU 레지스터 직접 제어 및 하드웨어 인터럽트 처리를 수행하며, 실시간 OS(FreeRTOS) 위에서 초경량 하드웨어 제어 코드를 최적화하는 직무",
+      tech: "C, 어셈블리어, STM32, Arduino, FreeRTOS, UART/SPI/I2C, JTAG, GDB, Make",
+      companies: "현대모비스, 현대트랜시스, 한화시스템, LG전자 등 전장/방산 기업",
+      subs: ["프로그래밍설계및기법, 프로그래밍기초(1), 기초전자공학, 공업수학", "회로이론(1), 전자회로(1), 신호및시스템, 리눅스프로그래밍, 객체지향프로그래밍, IoT기초/실습", "마이크로프로세서, 임베디드시스템, 컴퓨터구조, 운영체제, 전자회로(2), 디지털공학, 전자기학", "실무알고리즘, 인공지능응용 종합 펌웨어 제어 프로젝트"],
+      cert: "정보처리기사, 전자기사, 전자산업기사",
+      weights: { solve: 5, learn: 4, impl: 6, creative: 2, user: 1, comm: 3, hw_sw: 5 }
+    },
+    {
+      name: "🤖 IoT 개발자",
+      concept: "ESP32 등 무선 통신 소자를 다루며 저전력 센서 드라이버를 개발하고 MQTT/HTTP 통신 규격을 통해 물리 기기를 인터넷 망에 연결하는 직무",
+      tech: "C, Python, Arduino, ESP32, Raspberry Pi, Wi-Fi, Bluetooth, MQTT, AWS IoT",
+      companies: "LG전자, KT&G(자동화 설비), 스마트홈 스타트업 등",
+      subs: ["프로그래밍설계및기법, 프로그래밍기초(1), 기초전자공학, 공업수학", "IoT기초, IoT기초실습, 회로이론(1), 전자회로(1), 리눅스프로그래밍, 객체지향프로그래밍", "사물인터넷응용, 임베디드시스템, 마이크로프로세서, 컴퓨터구조, 운영체제", "IoT 무선 네트워크 분산 시스템 종합 캡스톤 프로젝트"],
+      cert: "정보통신산업기사, 정보처리기사, 전자기능사",
+      weights: { solve: 4, learn: 4, impl: 5, creative: 4, user: 4, comm: 4, hw_sw: 4 }
+    },
+    {
+      name: "📡 네트워크 인프라 (통신 보고서 트랙)",
       concept: "데이터센터(IDC) 및 광역망 인프라가 원활하게 흐르도록 라우팅/스위칭 설계 망을 총괄 제어 운영하는 통신 엔지니어링 트랙",
       tech: "Cisco IOS, Juniper, Wireshark, 트래픽 분산 제어, 네트워크 토폴로지 분석",
       companies: "KT, SKT, 삼성SDS 등 통신 및 엔터프라이즈 인프라 기업",
@@ -308,7 +435,7 @@
       weights: { solve: 4, learn: 4, impl: 5, creative: 2, user: 1, comm: 5, hw_sw: 4 }
     },
     {
-      name: "📡 네트워크 소프트웨어",
+      name: "📡 네트워크 소프트웨어 (통신 보고서 트랙)",
       concept: "기지국 장비 구동용 통신 L2/L3 프로토콜 스택 소켓 프로그래밍 및 가상화 제어 가상 네트워크(SDN/NFV) 프로그램을 완성하는 트랙",
       tech: "C, C++, Linux, Docker, AWS VPC, SDN/NFV OpenFlow 프로토콜 임베디드",
       companies: "KT, SKT 등 글로벌 장비/소프트웨어 대응 통신사",
@@ -317,7 +444,7 @@
       weights: { solve: 5, learn: 5, impl: 5, creative: 4, user: 1, comm: 3, hw_sw: 2 }
     },
     {
-      name: "📡 무선 및 신호처리",
+      name: "📡 무선 및 신호처리 (통신 보고서 트랙)",
       concept: "무선 공간 안테나 전파 주파수 매칭 데이터를 보정하고 모뎀 내부 변복조(DSP) 디지털 신호 처리 알고리즘을 설계 연구하는 트랙",
       tech: "MATLAB, Python, Keysight ADS, LabVIEW, 디지털 신호 가공 프레임워크",
       companies: "한화시스템(방산/레이더 통신), 한국방송통신전파진흥원(KCA) 등",
@@ -328,10 +455,7 @@
   ];
 
   let currentIdx = 0;
-  // 💡 hw_sw 속성 추가
   let scores = { solve: 0, learn: 0, impl: 0, creative: 0, user: 0, comm: 0, hw_sw: 0 };
-
-  // 역량별 문항 수가 달라졌으므로 각각의 최대 점수를 위한 문항 개수 정의
   const qCounts = { solve: 3, learn: 3, impl: 2, creative: 3, user: 3, comm: 3, hw_sw: 3 };
   let topResults = [];
 
@@ -347,7 +471,7 @@
     document.getElementById('gauge').style.width = `${progress}%`;
     if (currentIdx < questions.length) {
       const q = questions[currentIdx];
-      document.getElementById('qNum').innerText = `Q${currentIdx + 1}`;
+      document.getElementById('qNum').innerText = `Question ${String(currentIdx + 1).padStart(2, '0')}`;
       document.getElementById('qTitle').innerText = q.title;
     } else {
       calculateAndShowResult();
@@ -356,14 +480,8 @@
 
   function submitAnswer(points) {
     const q = questions[currentIdx];
-
-    // 💡 하드코딩된 ID 대신 객체의 reversed 속성으로 판별하여 안전하게 역배점 적용
-    if (q.reversed) {
-      scores[q.type] += (6 - points);
-    } else {
-      scores[q.type] += points;
-    }
-
+    if (q.reversed) { scores[q.type] += (6 - points); }
+    else { scores[q.type] += points; }
     currentIdx++;
     showQuestion();
   }
@@ -374,13 +492,11 @@
     document.getElementById('resultSection').style.display = 'block';
 
     let finalStats = {};
-    // 💡 문항 수가 다르더라도 각 지표의 만점이 50점이 되도록 비율 조정 계산
     for (const key in scores) {
       const maxPossibleScore = qCounts[key] * 5;
       finalStats[key] = Math.round((scores[key] / maxPossibleScore) * 50);
     }
 
-    // 화면에 보여줄 6개 항목만 텍스트 업데이트 (hw_sw는 화면에 숨김 처리)
     const displayKeys = ['solve', 'learn', 'impl', 'creative', 'user', 'comm'];
     for (const key of displayKeys) {
       const el = document.getElementById(`val_${key}`);
@@ -389,7 +505,6 @@
 
     let matchResults = [];
     jobProfiles.forEach(job => {
-      // hw_sw 가중치까지 합산하여 매칭도 계산
       const jobWeightTotal = job.weights.solve + job.weights.learn + job.weights.impl + job.weights.creative + job.weights.user + job.weights.comm + job.weights.hw_sw;
       let matchScore = 0;
       for (const key in finalStats) { matchScore += (finalStats[key] * (job.weights[key] / jobWeightTotal)); }
@@ -410,10 +525,8 @@
 
     document.getElementById('job1_name').innerText = topResults[0].name;
     document.getElementById('job1_pct').innerText = `${topResults[0].percentage}%`;
-
     document.getElementById('job2_name').innerText = topResults[1].name;
     document.getElementById('job2_pct').innerText = `${topResults[1].percentage}%`;
-
     document.getElementById('job3_name').innerText = topResults[2].name;
     document.getElementById('job3_pct').innerText = `${topResults[2].percentage}%`;
 
@@ -425,15 +538,30 @@
       data: {
         labels: ['문제해결', '학습능력', '구현력', '창의/기획', '사용자중심', '협업능력'],
         datasets: [{
-          // 차트에도 기존 6개 항목만 노출
           data: [finalStats.solve, finalStats.learn, finalStats.impl, finalStats.creative, finalStats.user, finalStats.comm],
-          backgroundColor: 'rgba(76, 110, 245, 0.2)',
-          borderColor: '#4c6ef5',
+          backgroundColor: 'rgba(99, 102, 241, 0.08)',
+          borderColor: '#4f46e5',
           borderWidth: 2,
-          pointBackgroundColor: '#4c6ef5'
+          pointBackgroundColor: '#4f46e5',
+          pointHoverBackgroundColor: '#ffffff',
+          pointHoverBorderColor: '#4f46e5',
+          pointRadius: 2,
+          pointHoverRadius: 5
         }]
       },
-      options: { scales: { r: { angleLines: { color: '#e9ecef' }, grid: { color: '#e9ecef' }, pointLabels: { color: '#333', font: { size: 11, weight: 600 } }, ticks: { display: false }, min: 0, max: 50 } }, plugins: { legend: { display: false } } }
+      options: {
+        scales: {
+          r: {
+            angleLines: { color: '#f3f4f6' },
+            grid: { color: '#f3f4f6' },
+            pointLabels: { color: '#4b5563', font: { size: 12, weight: 600 } },
+            ticks: { display: false },
+            min: 0,
+            max: 50
+          }
+        },
+        plugins: { legend: { display: false } }
+      }
     });
   }
 
@@ -442,7 +570,16 @@
     if(!target) return;
 
     for(let i=0; i<3; i++) {
-      document.getElementById(`item${i}`).style.background = (i === index) ? "#edf2ff" : "#ffffff";
+      const item = document.getElementById(`item${i}`);
+      if(i === index) {
+        item.style.backgroundColor = "#fafafa";
+        item.style.borderColor = "#4f46e5";
+        item.style.boxShadow = "0 4px 12px rgba(79, 70, 229, 0.08)";
+      } else {
+        item.style.backgroundColor = "#ffffff";
+        item.style.borderColor = "#e5e7eb";
+        item.style.boxShadow = "none";
+      }
     }
 
     document.getElementById('detJobName').innerText = target.name;

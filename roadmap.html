@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT응용공학과 진로 로드맵 가이드북</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+
+        :root {
+            --track-color: #3b82f6;
+            --track-bg: #eff6ff;
+        }
+
+        body {
+            background-color: #f3f4f6;
+            color: #1f2937;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            margin: 0;
+            padding: 24px 0;
+        }
+
+        .app-container {
+            max-width: 440px;
+            min-height: calc(100vh - 48px);
+            background-color: #ffffff;
+            margin: 0 auto;
+            border-radius: 28px;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.03);
+            padding: 40px 24px;
+        }
+
+        .header-zone {
+            text-align: left;
+            border-bottom: 2px solid #f3f4f6;
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+        }
+        .main-title { font-size: 22px; font-weight: 800; color: #111827; letter-spacing: -0.5px; }
+
+        /* 대분류 탭 스타일 */
+        .track-tabs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-bottom: 24px;
+        }
+        .tab-btn {
+            background-color: #f3f4f6;
+            border: none;
+            padding: 12px 2px;
+            border-radius: 14px;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #4b5563;
+            transition: all 0.2s ease;
+        }
+        .tab-btn.active { color: #ffffff; }
+        .tab-btn.active.sw-theme { background-color: #3b82f6; }
+        .tab-btn.active.infra-theme { background-color: #8b5cf6; }
+        .tab-btn.active.data-theme { background-color: #10b981; }
+        .tab-btn.active.hw-theme { background-color: #f59e0b; }
+
+        /* 세부 직무 아코디언 메뉴 스타일 */
+        .job-accordion-item {
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+        .job-header {
+            width: 100%;
+            padding: 18px 20px;
+            background: #ffffff;
+            border: none;
+            text-align: left;
+            font-size: 15px;
+            font-weight: 700;
+            color: #111827;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .job-header:hover {
+            background-color: #f9fafb;
+        }
+        .arrow-icon {
+            font-size: 12px;
+            color: #9ca3af;
+            transition: transform 0.2s ease;
+        }
+
+        /* 콘텐츠 상세 보드 */
+        .job-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.25s cubic-bezier(0, 1, 0, 1);
+            background-color: #ffffff;
+            padding: 0 20px;
+        }
+        .job-content.open {
+            max-height: 2000px;
+            padding: 4px 20px 24px 20px;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        .sub-label {
+            font-size: 11px;
+            font-weight: 800;
+            color: #9ca3af;
+            letter-spacing: 0.8px;
+            margin: 16px 0 6px 0;
+            text-transform: uppercase;
+        }
+
+        .tech-box {
+            color: var(--track-color);
+            background-color: var(--track-bg);
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 13.5px;
+            font-weight: 600;
+        }
+
+        .curriculum-board {
+            background-color: #f9fafb;
+            border-radius: 14px;
+            padding: 12px 14px;
+            font-size: 13px;
+            color: #374151;
+            line-height: 1.6;
+        }
+        .curriculum-board strong {
+            color: var(--track-color);
+            display: inline-block;
+            width: 45px;
+        }
+
+        .company-box {
+            background-color: #fffbeb;
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-size: 13px;
+            color: #78350f;
+            border-left: 3px solid #f59e0b;
+            line-height: 1.45;
+        }
+
+        .cert-tag {
+            background-color: #f3f4f6;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            color: #4b5563;
+            margin-bottom: 0;
+        }
+
+        .btn-back-home {
+            display: block;
+            text-align: center;
+            background: #111827;
+            color: #ffffff;
+            border-radius: 18px;
+            padding: 16px;
+            font-weight: 700;
+            font-size: 15px;
+            text-decoration: none;
+            margin-top: 32px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="header-zone">
+        <div class="main-title">학과 진로 로드맵 가이드</div>
+        <p class="text-muted small mb-0 mt-1">세부 직무를 선택하면 학년별 상세 가이드가 열립니다.</p>
+    </div>
+
+    <div class="track-tabs">
+        <button class="tab-btn active sw-theme" onclick="renderTrack('sw', this)">소프트웨어</button>
+        <button class="tab-btn" onclick="renderTrack('infra', this)">인프라/보안</button>
+        <button class="tab-btn" onclick="renderTrack('data', this)">데이터/AI</button>
+        <button class="tab-btn" onclick="renderTrack('hw', this)">통신/임베디드</button>
+    </div>
+
+    <div id="roadmapAccordion"></div>
+
+    <a href="index.html" class="btn-back-home">&larr; 직무 적성검사 하러가기</a>
+</div>
+
+<script>
+    // 지저분한 출처 텍스트들을 완벽하게 정제한 원천 데이터 풀
+    const fullRoadmapData = [
+        /* ==================== 1. SOFTWARE TRACK ==================== */
+        {
+            group: "sw",
+            name: "💻 웹 프론트엔드 개발자",
+            concept: "웹 브라우저에서 동작하는 사용자 인터페이스를 설계하고 구현하는 직무로, 컴포넌트 설계와 비동기 데이터 처리, 반응형 UI 구현이 핵심이다.",
+            tech: "HTML, CSS, JavaScript, React, Redux, Zustand, Vite",
+            companies: "삼성전자(DX), 카카오, 네이버, 마켓컬리 등 대형 IT 플랫폼 및 서비스 기업",
+            subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2)", "객체지향프로그래밍, 데이터구조, 모바일프로그래밍", "웹프로그래밍, 컴퓨터구조, 신호및시스템", "실무알고리즘, 인공지능응용, 캡스톤디자인"],
+            cert: "정보처리기사, 웹디자인기능사"
+        },
+        {
+            group: "sw",
+            name: "💻 안드로이드 / iOS 앱 개발자",
+            concept: "스마트폰 및 태블릿 환경에서 동작하는 모바일 앱을 설계하고 개발하는 직무로, 플랫폼별 UI 구현과 네이티브 기능 연동이 핵심이다.",
+            tech: "Kotlin, Swift, Flutter, Android Studio, Xcode, REST API",
+            companies: "네이버, 카카오, 토스, 당근마켓, 배달의민족 등 모바일 플랫폼 기업",
+            subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2)", "모바일프로그래밍, 객체지향프로그래밍, 데이터구조", "웹프로그래밍, 컴퓨터구조, 데이터베이스(1)", "실무알고리즘, 인공지능응용, 캡스톤디자인"],
+            cert: "정보처리기사, 웹디자인기능사(선택)"
+        },
+        {
+            group: "sw",
+            name: "💻 UI/UX 엔지니어",
+            concept: "사용자 경험을 중심으로 인터페이스를 설계하고 구현하는 직무로, 디자인 시스템 구축과 사용성 개선이 핵심이다.",
+            tech: "Figma, HTML, CSS, JavaScript, 프로토타이핑 툴, Zeplin",
+            companies: "대형 에이전시, IT 서비스 스타트업, 이커머스 기업 디자인 그룹",
+            subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2)", "모바일프로그래밍, 객체지향프로그래밍", "웹프로그래밍, 컴퓨터구조", "실무알고리즘, 캡스톤디자인"],
+            cert: "웹디자인기능사, GTQ 그래픽 자격증 우대"
+        },
+        {
+            group: "sw",
+            name: "💻 IoT 인터페이스 개발자",
+            concept: "IoT 기기에서 수집된 센서 데이터를 시각화하고 사용자가 제어할 수 있는 대시보드 및 인터페이스를 개발하는 직무이다.",
+            tech: "Python(Tkinter, PyQt), Flutter, Matplotlib, Seaborn, MQTT",
+            companies: "LG전자(IoT 플랫폼), 삼성SDS, 현대오토에버 등 제조/IT 융합 기업",
+            subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2), IT응용공학기초", "모바일프로그래밍, 객체지향프로그래밍, 데이터구조", "웹프로그래밍, 컴퓨터구조, 신호및시스템", "실무알고리즘, 인공지능응용, 캡스톤디자인"],
+            cert: "정보처리기사, 전자기사(선택), 웹디자인기능사"
+        },
+
+        /* ==================== 2. INFRA & SECURITY TRACK ==================== */
+        {
+            group: "infra",
+            name: "⚙️ 서버 / 백엔드 개발자",
+            concept: "서버 로직을 구현하고 API를 설계·운영하며 데이터베이스와 인프라를 관리하는 직무로, 시스템의 안정성과 확장성이 핵심이다.",
+            tech: "Java(Spring Boot), Node.js, MySQL, Docker, Linux, REST API",
+            companies: "카카오, 네이버, 토스, 당근마켓, 라인플러스, 쏘카 등 IT 서비스 전반",
+            subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2)", "데이터구조, 객체지향프로그래밍, 리눅스프로그래밍", "컴퓨터구조, 웹프로그래밍, 데이터베이스(1)", "데이터베이스(2), 실무알고리즘, 캡스톤디자인"],
+            cert: "정보처리기사, SQLD, 리눅스마스터 2급"
+        },
+        {
+            group: "infra",
+            name: "⚙️ 시스템 엔지니어 (SE)",
+            concept: "서버와 운영체제를 구축·운영하며 시스템 인프라 아키텍처가 안정적으로 동작하도록 총괄 관리하는 직무이다.",
+            tech: "Linux, Windows Server, Shell Script(Bash), Python 자동화, Docker",
+            companies: "KT, SKT, 한국IBM, 메가존클라우드, IDC 인프라 센터 전반",
+            subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2), IT응용공학기초", "리눅스프로그래밍, 데이터통신", "운영체제, 컴퓨터네트워크", "실무알고리즘"],
+            cert: "리눅스마스터 1급/2급, 정보처리기사"
+        },
+        {
+            group: "infra",
+            name: "⚙️ 데이터베이스 관리자 / DBA",
+            concept: "데이터베이스를 모델링·설계·구축하고 데이터 암호화, 권한 관리 등 구조의 안정성, 성능, 백업 및 무결성을 유지하는 직무이다.",
+            tech: "MySQL, Oracle, PostgreSQL, SQL, PL/SQL, 인덱스 튜닝, 쿼리 최적화",
+            companies: "오라클 코리아, 삼성SDS, LG CNS, 한국IBM 등 대형 엔터프라이즈 부서",
+            subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2), 공업수학", "데이터구조, 객체지향프로그래밍, 리눅스프로그래밍, 데이터통신", "데이터베이스(1·2), 운영체제, 정보보안, 컴퓨터네트워크", "실무알고리즘, 전자정부프레임워크, 캡스톤디자인"],
+            cert: "SQLD, SQLP(심화), 정보처리기사, OCP"
+        },
+        {
+            group: "infra",
+            name: "☁️ 클라우드 엔지니어",
+            concept: "AWS 등의 퍼블릭 클라우드 가상 호스팅 환경에서 인프라 아키텍처를 가상화 코드로 설계(IaC)하고 빌드 자동화(CI/CD)를 구축하는 직무이다.",
+            tech: "AWS, Azure, Docker, Kubernetes, Terraform, Ansible, Jenkins",
+            companies: "네이버 클라우드, 삼성SDS, KT Cloud, 메가존클라우드, AWS 코리아",
+            subs: ["프로그래밍기초(1·2), 프로그래밍설계및기법, IT응용공학기초", "리눅스프로그래밍, 데이터통신", "운영체제, 컴퓨터네트워크 가상화 노드", "실무알고리즘 기반 인프라 코드화 배포"],
+            cert: "AWS-SA, AWS Cloud Practitioner, 리눅스마스터 2급, CKA"
+        },
+        {
+            group: "infra",
+            name: "🔒 정보보안 엔지니어",
+            concept: "시스템과 네트워크 전반의 보안 환경을 구축·관리하며 방화벽 정책 설정 및 해킹/정보 유출 위협을 통합 예방 통제하는 직무이다.",
+            tech: "SIEM, ESM, 방화벽 정책 설계, IDS/IPS(Snort), Wireshark",
+            companies: "삼성전자, 안랩(AhnLab), SK쉴더스, 이글루코퍼레이션 등 보안 관제 인프라",
+            subs: ["프로그래밍기초(1·2), IT응용공학기초", "리눅스프로그래밍, 데이터통신 보안", "운영체제, 컴퓨터네트워크, 정보보안, 웹프로그래밍", "실무알고리즘 관제 프로젝트"],
+            cert: "정보보안기사, CISSP, 리눅스마스터, 네트워크관리사"
+        },
+        {
+            group: "infra",
+            name: "🔒 모의해킹 전문가",
+            concept: "실제 최신 침투 해킹 기법을 활용해 공격자 관점에서 시스템의 소프트웨어 및 네트워크 보안 취약점을 정밀 분석하고 대응책을 제시하는 직무이다.",
+            tech: "Kali Linux, Metasploit, Burp Suite, OWASP Top 10 취약점 우회, 리버싱",
+            companies: "SK쉴더스, 한국인터넷진흥원(KISA), 토스(보안팀) 등 침투 테스트 그룹",
+            subs: ["프로그래밍기초(1·2), IT응용공학기초", "리눅스프로그래밍, 데이터통신", "운영체제, 컴퓨터네트워크, 정보보안 해킹공학, 웹프로그래밍", "실무알고리즘 및 교내외 CTF 보안해킹대회 참여"],
+            cert: "정보보안기사, OSCP, CEH 취득 우대"
+        },
+        {
+            group: "infra",
+            name: "🔒 클라우드 보안 전문가",
+            concept: "클라우드 환경의 계정 및 분산 자산 접근 제어(IAM), 가상 네트워크 방화벽 연동 및 컴플라이언스 규격 인프라를 총괄 보호하는 직무이다.",
+            tech: "AWS IAM, VPC Security Group, Docker 보안, Cloud Custodian",
+            companies: "안랩, SK쉴더스, 메가존클라우드, 토스 보안 금융 파트",
+            subs: ["프로그래밍기초(1·2), IT응용공학기초", "리눅스프로그래밍, 데이터통신", "운영체제, 컴퓨터네트워크, 정보보안", "실무알고리즘 연계 프로젝트"],
+            cert: "CCSP, AWS Certified Security, 리눅스마스터"
+        },
+        {
+            group: "infra",
+            name: "🔒 보안 솔루션 엔지니어",
+            concept: "방화벽 정책 설계, 침입탐지시스템(IDS/IPS), 가상사설망(VPN) 등 기업 인프라 방어 솔루션을 엔지니어링 및 유지보수하는 직무이다.",
+            tech: "Palo Alto, FortiGate, Snort, Suricata, OpenVPN, Wireshark 패킷 분석",
+            companies: "안랩, 시큐아이, 파수, 윈스 등 국내외 정보보안 특화 솔루션 기업",
+            subs: ["프로그래밍기초(1·2), IT응용공학기초", "리눅스프로그래밍, 데이터통신", "운영체제, 컴퓨터네트워크, 정보보안", "실무알고리즘 관제 실습"],
+            cert: "정보보안기사, CISSP, 네트워크관리사 2급"
+        },
+
+        /* ==================== 3. DATA & AI TRACK ==================== */
+        {
+            group: "data",
+            name: "📊 데이터 분석가",
+            concept: "데이터를 수집·정제·분석하여 비즈니스 의사결정에 필요한 지표(KPI)를 가설 설계하고 대시보드로 시각화하여 인사이트를 발굴하는 직무이다.",
+            tech: "Python(pandas, numpy), SQL, Tableau, Power BI, Looker Studio",
+            companies: "SK하이닉스, 쏘카, 버킷플레이스(오늘의집), 아워홈 등 데이터 전략 부서",
+            subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2), 공업수학, 이산수학", "데이터구조, 객체지향프로그래밍, 인공지능수학, 리눅스프로그래밍", "데이터베이스(1·2), 웹프로그래밍, 운영체제, 컴퓨터네트워크", "실무알고리즘, 인공지능응용 실무 지표 분석"],
+            cert: "ADsP, SQLD, 빅데이터분석기사"
+        },
+        {
+            group: "data",
+            name: "📊 BI Analyst / Developer",
+            concept: "기업 비즈니스 요구사항에 맞춰 데이터 웨어하우스(마트) 인프라의 팩트/디멘전 다차원 테이블 구조를 정의하고 자동화 리포팅을 구현하는 직무이다.",
+            tech: "Power BI(DAX), Tableau, SQL, Star Schema 지표 설계 스키마",
+            companies: "GS칼텍스, 아워홈 등 대형 산업군 특화 비즈니스 데이터 유닛",
+            subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2), 공업수학, 이산수학", "데이터구조, 객체지향프로그래밍, 인공지능수학, 컴퓨터구조", "데이터베이스(1·2), 웹프로그래밍, 컴퓨터네트워크, 정보보안", "실무알고리즘, 전자정부프레임워크 자동화 리포팅"],
+            cert: "SQLD, SQLP(심화), ADsP"
+        },
+        {
+            group: "data",
+            name: "📊 데이터 사이언티스트",
+            concept: "고도화된 통계 이론과 머신러닝 알고리즘 모델링을 통해 가설을 수립하고, 피처 엔지니어링 실험 검증을 거쳐 비즈니스 문제를 해결하는 직무이다.",
+            tech: "Python, scikit-learn, PyTorch, TensorFlow, matplotlib, seaborn",
+            companies: "삼성전자(Samsung AI), 크래프톤, 카카오엔터프라이즈 등 테크 기업",
+            subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2), 공업수학, 이산수학", "데이터구조, 객체지향프로그래밍, 인공지능수학, 리눅스프로그래밍", "데이터베이스(1·2), 운영체제, 컴퓨터네트워크", "인공지능응용, 실무알고리즘 실험 설계"],
+            cert: "ADsP, 빅데이터분석기사, SQLD"
+        },
+        {
+            group: "data",
+            name: "📊 데이터 엔지니어",
+            concept: "대용량 파이프라인 인프라를 처리하기 위해 ETL/ELT 아키텍처를 가동하고 배치 가속화 및 분산 적재 스토리지 파이프라인을 다지는 직무이다.",
+            tech: "Python, SQL, Linux, Docker, Airflow, Kafka, Spark, NoSQL 분산장치",
+            companies: "네이버, 카카오, SK텔레콤, 쿠팡 대용량 데이터 인프라 실무 부서",
+            subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2), 공업수학, 이산수학", "데이터구조, 리눅스프로그래밍, 객체지향, 데이터통신", "데이터베이스(1·2), 컴퓨터네트워크, 정보보안, 운영체제", "실무알고리즘, 전자정부프레임워크 파이프라인 가동"],
+            cert: "정보처리기사, SQLD"
+        },
+        {
+            group: "data",
+            name: "📊 머신러닝 엔지니어",
+            concept: "학습 파이프라인을 정밀 빌드하여 완성된 모델을 FastAPI 등의 컨테이너 기반 환경으로 서빙 배포하고 MLOps 주기를 관리하는 직무이다.",
+            tech: "Python, PyTorch, TensorFlow, FastAPI, Docker, MLflow, Kubernetes",
+            companies: "네이버, 카카오, 무신사 추천시스템 테크니컬 스쿼드",
+            subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2), 공업수학, 이산수학", "데이터구조, 객체지향프로그래밍, 인공지능수학, 리눅스프로그래밍", "데이터베이스(1·2), 운영체제, 컴퓨터네트워크", "인공지능응용, 실무알고리즘 파이프라인 배포"],
+            cert: "정보처리기사, ADsP 연계"
+        },
+        {
+            group: "data",
+            name: "🧠 AI 연구원 / 리서치 사이언티스트",
+            concept: "차세대 최신 인공지능 알고리즘 논문을 리딩 분석 및 재현하고 수학/통계적 선형 최적화를 거쳐 신규 알고리즘 구조를 발굴하는 연구 트랙이다.",
+            tech: "Python, PyTorch, TensorFlow, OpenCV, Hugging Face, CUDA 가속 분산학습",
+            companies: "네이버, 카카오, 업스테이지, 올거나이즈, 구글 코리아 인공지능 연구소",
+            subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2), 공업수학, 이산수학", "데이터구조, 인공지능수학, 신호및시스템, 객체지향, 리눅스프로그래밍", "데이터베이스(1·2), 운영체제, 컴퓨터네트워크, 마이크로프로세서, 디지털공학", "인공지능응용, 실무알고리즘 논문 재현 연구"],
+            cert: "정보처리기사 및 AI 인공지능 경진대회 포트폴리오 빌드"
+        },
+        {
+            group: "data",
+            name: "🧠 AI 서비스 기획자",
+            concept: "비즈니스 문제 해결을 위해 AI 요구사항 정의서(PRD)를 작성하고, 데이터 라벨링 전략 수립 및 모델 오프라인/온라인 평가 검정을 총괄 조율하는 직무이다.",
+            tech: "Notion, Jira, Figma, Excel, SQL, Python 기초, A/B 테스트 매트릭 설계",
+            companies: "네이버, 카카오, 대기업 AI 연계 서비스 총괄 기획전략 파트",
+            subs: ["프로그래밍설계및기법, 인공지능과디지털사고, 공업수학", "데이터구조, 객체지향, 인공지능수학, 데이터통신", "데이터베이스(1·2), 웹프로그래밍, 정보보안, 컴퓨터네트워크", "인공지능응용, 실무알고리즘 종합 서비스 기획"],
+            cert: "ADsP, SQLD 획득 권장"
+        },
+        {
+            group: "data",
+            name: "🧠 컴퓨터 비전 엔지니어",
+            concept: "이미지와 비디오 영상 다차원 픽셀 전처리를 거쳐 Object Detection, Segmentation, Tracking 인공지능 딥러닝 서빙 파이프라인을 전담 구축하는 직무이다.",
+            tech: "Python, PyTorch, OpenCV, CVAT, ONNX, TensorRT 최적화, Docker",
+            companies: "현대자동차(자율주행), 뷰노/루닛(의료 AI 디바이스), 네이버 스노우",
+            subs: ["프로그래밍설계및기법, 프로그래밍기초(1·2), 공업수학, 이산수학", "데이터구조, 인공지능수학, 신호및시스템, 객체지향프로그래밍", "마이크로프로세서, 임베디드시스템, 운영체제, 디지털공학"],
+            cert: "정보처리기사, AI 비전 해커톤 포트폴리오 우대"
+        },
+
+        /* ==================== 4. HARDWARE & TELECOM TRACK ==================== */
+        {
+            group: "hw",
+            name: "🔌 하드웨어 설계 엔지니어",
+            concept: "디지털 및 아날로그 회로 수식을 시뮬레이션하고, 부품 선정을 거쳐 KiCad/Altium 툴 기반으로 물리 인쇄회로기판(PCB) 아트워크를 레이아웃 설계하는 직무이다.",
+            tech: "KiCad, Altium Designer, LTspice, 오실로스코프, 아날로그 기본 소자이해",
+            companies: "삼성전자(DS/VD), LG전자, 삼성전기, 한솔테크닉스 등 전자 제조 가전 부문",
+            subs: ["기초전자공학, 공업수학, 프로그래밍기초(1)", "회로이론(1), 전자회로(1), 신호및시스템, 이산수학", "전자회로(2), 회로이론(2), 전자기학, 디지털공학, 컴퓨터구조", "종합설계 / 캡스톤디자인 아트워크 양산 회로 설계"],
+            cert: "전자기사, 전자산업기사, 전자기능사 필수 연계"
+        },
+        {
+            group: "hw",
+            name: "🔌 회로 검증 엔지니어",
+            concept: "설계 완료된 프로토타입 보드를 계측하여 전자파(EMI) 전력 노이즈 요소를 필터링하고 불량 원인 디버깅 보고서를 산출해 종합 품질을 보증하는 직무이다.",
+            tech: "오실로스코프, 멀티미터, 로직 애널라이저, LTspice 시뮬레이션 프레임워크",
+            companies: "삼성전자, LG전자 하드웨어 인프라 신뢰성 테스트 및 품질 보증(QA) 부서",
+            subs: ["기초전자공학, 공업수학, 프로그래밍기초(1)", "회로이론(1), 전자회로(1), 신호및시스템, 이산수학", "전자회로(2), 전자기학, 디지털공학, 컴퓨터구조"],
+            cert: "전자산업기사, 전자기사 자격증 추천"
+        },
+        {
+            group: "hw",
+            name: "🤖 임베디드 SW / 펌웨어 개발자",
+            concept: "마이크로컨트롤러(MCU) 레지스터를 직접 제어하고, 실시간 운영체제(FreeRTOS) 기반 위에서 메모리와 성능 인터럽트가 최적화된 초경량 코드를 완성하는 직무이다.",
+            tech: "C, 어셈블리어, STM32, Arduino, FreeRTOS, UART/SPI/I2C, JTAG, GDB, Make",
+            companies: "현대모비스, 현대트랜시스, 한화시스템, LG전자 전장 사업부 및 방산 부문",
+            subs: ["프로그래밍설계및기법, 프로그래밍기초(1), 기초전자공학, 공업수학", "회로이론(1), 전자회로(1), 신호및시스템, 리눅스프로그래밍, 객체지향프로그래밍, IoT기초/실습", "마이크로프로세서, 임베디드시스템, 컴퓨터구조, 운영체제, 전자회로(2), 디지털공학, 전자기학", "실무알고리즘, 인공지능응용 종합 임베디드 펌웨어 제어 프로젝트"],
+            cert: "정보처리기사, 전자기사, 전자산업기사 연계"
+        },
+        {
+            group: "hw",
+            name: "🤖 IoT 개발자",
+            concept: "ESP32 등 무선 마이크로칩을 활용해 저전력 가전 센서 드라이버를 커스텀 코딩하고 MQTT 프로토콜 통신을 거쳐 인터넷 웹 망에 사물을 연동하는 직무이다.",
+            tech: "C, Python, Arduino, ESP32, Raspberry Pi, Wi-Fi/BLE 무선 소자, MQTT, AWS IoT",
+            companies: "LG전자 사물인터넷 부서, KT&G 스마트자동화 인프라, IoT 혁신 스타트업",
+            subs: ["프로그래밍설계및기법, 프로그래밍기초(1), 기초전자공학, 공업수학", "IoT기초, IoT기초실습, 회로이론(1), 전자회로(1), 리눅스프로그래밍, 객체지향프로그래밍", "사물인터넷응용, 임베디드시스템, 마이크로프로세서, 컴퓨터구조, 운영체제", "IoT 무선 네트워크 분산 시스템 종합 캡스톤 프로젝트"],
+            cert: "정보통신산업기사, 정보처리기사, 전자기능사"
+        },
+        {
+            group: "hw",
+            name: "📡 네트워크 인프라 (통신 보고서 트랙)",
+            concept: "라우터, 스위치, 광케이블 인프라 및 광역 통신망 IDC 센터가 데이터 병목 현상 없이 정교하게 흐르도록 엔지니어링 토폴로지를 관리하는 직무이다.",
+            tech: "Cisco IOS, Juniper, Wireshark, 망 보안 관제 규칙, 트래픽 라우팅 프로토콜 설계",
+            companies: "KT, SKT, LG U+, 삼성SDS 등 엔프라프라이즈 광역 인프라 통신사",
+            subs: ["프로그래밍기초(1·2), 공업수학, 이산수학, IoT기초/실습, 회로이론(1)", "객체지향, 데이터구조, 리눅스프로그래밍, 신호및시스템, 전자기학, 전자회로(1)", "전자회로(2), 데이터통신, 정보보안, 아날로그통신공학, 운영체제, 컴퓨터네트워크", "캡스톤디자인(1·2), 실무알고리즘 망 인프라 종합 구축 실습"],
+            cert: "정보통신기사 필수 취득 및 CCNA, CCNP 연계"
+        },
+        {
+            group: "hw",
+            name: "📡 네트워크 소프트웨어 (통신 보고서 트랙)",
+            concept: "기지국 장비 제어 및 L2/L3 프로토콜 스택 소켓 네트워크 프로그램을 빌드하고, 클라우드 환경의 통신 가상화 기술(SDN/NFV)을 정밀 코딩하는 직무이다.",
+            tech: "C, C++, Linux 소켓프로그래밍, Docker, AWS VPC 가상네트워크, OpenFlow 프로토콜",
+            companies: "KT, SKT, 에릭슨엘지, 한화시스템 등 글로벌 통신 장비 제조 소프트웨어팀",
+            subs: ["프로그래밍기초(1·2), 공업수학, 이산수학, IoT기초/실습, 회로이론(1)", "객체지향프로그래밍, 데이터구조, 리눅스프로그래밍, 신호및시스템, 전자회로(1)", "데이터통신, 정보보안, 인공지능수학, 임베디드시스템, 운영체제, 컴퓨터네트워크", "캡스톤디자인, 실무알고리즘 소켓 프로토콜 펌웨어 정밀 가동"],
+            cert: "정보처리기사, 리눅스마스터, 정보통신기사, 무선설비기사"
+        },
+        {
+            group: "hw",
+            name: "📡 무선 및 신호처리 (통신 보고서 트랙)",
+            concept: "무선 공간 속 전파 주파수의 왜곡을 연산 보정하고, 모뎀 칩셋 내부의 변복조 디지털 신호 가공(DSP) 알고리즘을 매트랩 기반 수식으로 연구 설계하는 직무이다.",
+            tech: "MATLAB, Python, Keysight ADS, LabVIEW 디지털 가공 엔진, 신호처리 프레임워크",
+            companies: "한화시스템 국방 방산 레이더 연구소, 한국방송통신전파진흥원(KCA)",
+            subs: ["프로그래밍기초(1·2), 공업수학, 이산수학, 회로이론(1)", "객체지향프로그래밍, 데이터구조, 신호및시스템, 전자기학, 전자회로(1)", "전자회로(2), 데이터통신, 인공지능수학, 마이크로프로세서, 아날로그통신공학", "캡스톤디자인(1·2), 실무알고리즘 물리 수식 시뮬레이션"],
+            cert: "무선설비기사, 전파전자통신기사, 정보통신기사 핵심 우대"
+        }
+    ];
+
+    function toggleJob(headerEl) {
+        const item = headerEl.parentElement;
+        const content = item.querySelector('.job-content');
+        const arrow = item.querySelector('.arrow-icon');
+
+        if (content.classList.contains('open')) {
+            content.classList.remove('open');
+            arrow.style.transform = 'rotate(0deg)';
+        } else {
+            document.querySelectorAll('.job-content').forEach(el => el.classList.remove('open'));
+            document.querySelectorAll('.arrow-icon').forEach(el => el.style.transform = 'rotate(0deg)');
+
+            content.classList.add('open');
+            arrow.style.transform = 'rotate(180deg)';
+        }
+    }
+
+    function renderTrack(groupKey, btnEl) {
+        const buttons = document.querySelectorAll('.tab-btn');
+        buttons.forEach(b => b.className = 'tab-btn');
+
+        btnEl.classList.add('active');
+        if (groupKey === 'sw') { btnEl.classList.add('sw-theme'); document.documentElement.style.setProperty('--track-color', '#3b82f6'); document.documentElement.style.setProperty('--track-bg', '#eff6ff'); }
+        else if (groupKey === 'infra') { btnEl.classList.add('infra-theme'); document.documentElement.style.setProperty('--track-color', '#8b5cf6'); document.documentElement.style.setProperty('--track-bg', '#faf5ff'); }
+        else if (groupKey === 'data') { btnEl.classList.add('data-theme'); document.documentElement.style.setProperty('--track-color', '#10b981'); document.documentElement.style.setProperty('--track-bg', '#f0fdf4'); }
+        else if (groupKey === 'hw') { btnEl.classList.add('hw-theme'); document.documentElement.style.setProperty('--track-color', '#f59e0b'); document.documentElement.style.setProperty('--track-bg', '#fffbeb'); }
+
+        const container = document.getElementById('roadmapAccordion');
+        container.innerHTML = '';
+
+        const targets = fullRoadmapData.filter(item => item.group === groupKey);
+        targets.forEach(job => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'job-accordion-item';
+
+            let companyLayout = '';
+            if (job.companies && job.companies.trim() !== '') {
+                companyLayout = `
+          <div class="sub-label" style="color: #d97706">🏢 실제 진출 주요 기업</div>
+          <div class="company-box">${job.companies}</div>
+        `;
+            }
+
+            itemDiv.innerHTML = `
+        <button class="job-header" onclick="toggleJob(this)">
+          <span>${job.name}</span>
+          <span class="arrow-icon">▼</span>
+        </button>
+        <div class="job-content">
+          <div class="job-card-concept">${job.concept}</div>
+
+          <div class="sub-label">💻 핵심 스택 / 기술</div>
+          <div class="tech-box">${job.tech}</div>
+
+          ${companyLayout}
+
+          <div class="sub-label">🎓 학과 추천 학년별 커리큘럼</div>
+          <div class="curriculum-board">
+            <div><strong>1학년</strong>| &nbsp;${job.subs[0] || '-'}</div>
+            <div><strong>2학년</strong>| &nbsp;${job.subs[1] || '-'}</div>
+            <div><strong>3학년</strong>| &nbsp;${job.subs[2] || '-'}</div>
+            <div><strong>4학년</strong>| &nbsp;${job.subs[3] || '-'}</div>
+          </div>
+
+          <div class="sub-label">🏅 권장 자격증 및 추천 활동</div>
+          <p class="cert-tag">${job.cert}</p>
+        </div>
+      `;
+            container.appendChild(itemDiv);
+        });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        renderTrack('sw', document.querySelector('.tab-btn'));
+    });
+</script>
+</body>
+</html>
