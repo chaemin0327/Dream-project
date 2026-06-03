@@ -487,6 +487,7 @@
   }
 
   function calculateAndShowResult() {
+    sessionStorage.setItem('quizScores', JSON.stringify(scores));
     document.getElementById('progressSection').style.display = 'none';
     document.getElementById('questionSection').style.display = 'none';
     document.getElementById('resultSection').style.display = 'block';
@@ -602,6 +603,15 @@
     document.getElementById('detCert').innerText = target.cert;
 
     document.getElementById('roadmapDetailSection').style.display = 'block';
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const saved = sessionStorage.getItem('quizScores');
+      if (saved) {
+        scores = JSON.parse(saved);
+        document.getElementById('introSection').style.display = 'none';
+        calculateAndShowResult(); // 결과 화면 바로 복원
+      }
+    });
   }
 </script>
 </body>
